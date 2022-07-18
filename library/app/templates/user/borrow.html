@@ -1,0 +1,45 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<style>
+  .btn{
+    margin-left:900px
+  }
+</style>
+<div class='container pt-3'>
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    <h4>Đặt mượn sách</h4>
+    <table class="table table-form">
+      <tr>
+        <th>Sách:</th>
+        <td>
+          <img src="/{{book.image}}" style="max-height: 200px;">
+          <br>
+          <span class="book-title">{{book.title}}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Mượn đến ngày:</th>
+        <td>
+          <div class="row">
+            <div class="col-6 input-group date" id='datetimepicker1'>
+              <input name="dueDate" value="{{ form.dueDate.value|default:'' }}" class="form-control input-group-addon">
+            </div>
+            <div class="col-6">
+              {{ form.dueDate.errors }}
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    {% comment %} <a class="btn btn-secondary" href="{% url 'view-book' book.id%}">Quay lại</a> {% endcomment %}
+    <button type='submit' class="btn btn-primary mb-1">Tiếp tục</button>
+  </form>
+</div>
+<script type="text/javascript">
+  $(function () {
+    $('#datetimepicker1').datetimepicker({ format: 'DD/MM/YYYY' });
+  });
+</script>
+{% endblock %}

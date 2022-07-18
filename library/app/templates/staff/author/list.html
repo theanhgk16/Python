@@ -1,0 +1,90 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=2 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-5">  
+  <h2>Danh mục tác giả</h2>
+  
+  {%if authors %}
+    <form class ="mt-4 mb-3">
+      <div class="row">
+        <div class="col-6" style="">
+          <input name="keyword" value="{{filters.keyword}}" class="form-control" placeholder="Nhập tên/quốc gia để tìm"/> 
+        </div>
+
+        <div class="col-4" style="">
+          <button class="btn btn-primary">Tìm kiếm</button>
+        </div>
+
+        <div class="col-2 ">
+          <a href='{% url "author-create" %}' class="btn btn-primary ml-4">Thêm tác giả</a>
+        </div>
+      </div>
+    </form> 
+    <table class="table table-bordered">
+      <tr>
+        <th style="width:5%" class="text-center">STT</th>
+        <th style="width:45%" class="text-center">Tên</th>
+        <th style="width:40%" class="text-center">Quốc gia</th>
+        <th style="width:10%" class="text-center">Thao tác</th>
+      </tr>
+      {% for author in authors %}
+      <tr>
+        <td class="text-center">{{ forloop.counter0|add:authors.start_index }}</td>
+        <td class="text-center">{{ author.name }}</td>
+        <td class="text-center">{{ author.country }} </td>
+        <td class="text-center">
+          <a title="Chỉnh sửa"href='{% url "author-update" author.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+          <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "author-delete" author.id %}'>
+            <i class="fas fa-trash"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <nav aria-label="..." class="mb-5">
+      {% if authors.has_other_pages %}
+        <ul class="pagination">
+          {% if authors.has_previous %}
+            <li class="page-item"><a class="page-link" href="{{searchauthor}}&page={{ authors.previous_page_number }}"> « </a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link"> « </span></li>
+          {% endif %}
+    
+          {% for i in authors.paginator.page_range %}
+            {% if authors.number == i %}
+              <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="{{searchauthor}}&page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+    
+          {% if authors.has_next %}
+            <li class="page-item"><a class="page-link" href="{{searchauthor}}page={{ authors.next_page_number }}"> » </a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link"> » </span></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+    </nav> 
+    
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+
+</div>
+
+<script>
+  function confirmDelete(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+      location.href = url;
+    }
+  }
+</script>
+
+{% endblock %}

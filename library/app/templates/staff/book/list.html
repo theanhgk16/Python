@@ -1,0 +1,98 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=0 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-5">
+  <h2>Danh mục sách</h2>
+  {%if books %}
+  <form class ="mt-4 mb-3">
+    <div class="row">
+      <div class="col-6" style="">
+        <input name="keyword" value="{{filters.keyword}}" class="form-control" placeholder="Nhập tên/mã sách để tìm"/> 
+      </div>
+      <div class="col-4" style="">
+        <button class="btn btn-primary">Tìm kiếm</button>
+      </div>
+      <div class="col-2 ">
+        <a style="margin-left:26px" href='{% url "book-create" %}' class="btn btn-primary">Thêm sách</a>
+      </div>
+    </div>
+  </form> 
+  <table class="table table-bordered">
+    <tr>
+      <th style="width:5%" class="text-center">STT</th>
+      <th style="width:12%" class="text-center">Mã</th>
+      <th style="width:20%" class="text-center">Sách</th>
+      <th style="width:10%" class="text-center">Tác giả</th>
+      <th style="width:10%" class="text-center">Nhà xuất bản</th>
+      <th style="width:25%" class="text-center">Mô tả</th>
+      <th style="width:8%" class="text-center">Số bản đang còn</th>
+      <th style="width:10%" class="text-center">Thao tác</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+      <td class="text-center">{{  forloop.counter0|add:books.start_index }}</td>
+      <td class="text-center">{{ book.code }}</td>
+      <td class="text-center">
+        <img style="width:100%" src="/{{book.image}}">
+        <br>
+        <span class="book-title">{{ book.title }}</span>
+      </td>
+      <td class="text-center">{{ book.author.name }}</td>
+      <td class="text-center">{{ book.publisher.name }}</td>
+      <td>{{ book.description }}</td>
+      <td class="text-center">{{ book.numberOfAvailableCopy }}</td>
+      <td class="text-center">
+        <a title="Chỉnh sửa"href='{% url "book-update" book.id %}'><i class="fas fa-edit"></i></a> &nbsp;
+        <a title="Xóa" style="color:red" href='#' onclick="confirmDelete(this)" url='{% url "book-delete" book.id %}'>
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <nav aria-label="..." class="mb-5">
+    {% if books.has_other_pages %}
+      <ul class="pagination">
+        {% if books.has_previous %}
+          <li class="page-item"><a class="page-link" href="{{searchbook}}&page={{ books.previous_page_number }}"> « </a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link"> « </span></li>
+        {% endif %}
+  
+        {% for i in books.paginator.page_range %}
+          {% if books.number == i %}
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ i }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="{{searchbook}}&page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+  
+        {% if books.has_next %}
+          <li class="page-item"><a class="page-link" href="{{searchbook}}page={{ books.next_page_number }}"> » </a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link"> » </span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+  </nav> 
+  {% else %}
+  <p>Không có dữ liệu</p>
+  {% endif %}
+</div>
+
+<script>
+  function confirmDelete(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+      location.href = url;
+    }
+  }
+</script>
+
+{% endblock %}

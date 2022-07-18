@@ -1,0 +1,106 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+{% with page=1 %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-5">
+  <h2>Quản lý sách mượn</h2>
+  {%if bookRents %}
+  <form class="mt-4 mb-3">
+    <div class="row">
+      <div class="col-12">
+        <input name="keyword" value="{{ keyword }}" class="form-control" placeholder="Nhập tên/mã sách để tìm">
+      </div>
+    </div>
+  </form> 
+  <table class="table table-bordered">
+    <tr>
+      <th style="width: 5%" class="text-center">STT</th>
+      <th style="width: 20%" class="text-center">Sách</th>
+      <th style="width: 15%" class="text-center">Người mượn</th>
+      <th style="width: 15%" class="text-center">Ngày mượn</th>
+      <th style="width: 15%" class="text-center">Hạn trả</th>
+      <th style="width: 15%" class="text-center">Trạng thái</th>
+      <th style="width: 15%" class="text-center">Thao tác</th>
+    </tr>
+    {%for bookRent in bookRents %}
+    <tr>
+      <td class="text-center">{{ forloop.counter0|add:bookRents.start_index }}</td>
+      <td class="text-center">{{ bookRent.book.title }} ({{bookRent.book.code}})</td>
+      <td class="text-center">{{ bookRent.user.fullname }}</td>
+      <td class="text-center">{{ bookRent.startDate|date:"d/m/Y" }}</td>
+      <td class="text-center">{{ bookRent.dueDate|date:"d/m/Y" }}</td>
+      <td class="text-center">
+        {% if bookRent.status == 0 %} Đang chờ nhận {%endif%}
+        {% if bookRent.status == 1 %} Đang mượn {%endif%}
+        {% if bookRent.status == 2 %} Đã trả {%endif%}
+      </td>
+      <td class="text-center">
+        {% if bookRent.status == 0 %}
+        <a onclick="confirmDeliver(this)" url='{% url "book-deliver" bookRent.id %}' href="javascript:void(0)"
+          class="btn btn-sm btn-primary">
+          Phát sách
+        </a>
+        {% endif %}
+        {% if bookRent.status == 1 %}
+        <a onclick="confirmReturn(this)" url='{% url "book-return" bookRent.id %}' href="javascript:void(0)"
+          class="btn btn-sm btn-primary">
+          Nhận trả sách
+        </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <nav aria-label="..." class="mb-5">
+    {% if bookRents.has_other_pages %}
+      <ul class="pagination">
+        {% if bookRents.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ bookRents.previous_page_number }}"> « </a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link"> « </span></li>
+        {% endif %}
+  
+        {% for i in bookRents.paginator.page_range %}
+          {% if bookRents.number == i %}
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ i }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+  
+        {% if books.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ bookRents.next_page_number }}"> » </a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link"> » </span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+  </nav> 
+
+  {%else%}
+  <p>Không có dữ liệu</p>
+  {%endif%}
+</div>
+
+<script>
+  function confirmDeliver(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Xác nhận đã phát sách cho người mượn?')) {
+      location.href = url;
+    }
+  }
+  function confirmReturn(a) {
+    var url = a.getAttribute('url');
+    if (confirm('Xác nhận đã nhận lại sách từ người mượn?')) {
+      location.href = url;
+    }
+  }
+</script>
+
+{% endblock %}

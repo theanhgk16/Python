@@ -1,0 +1,27 @@
+{% extends 'staff/base.html' %}
+
+{% block navbar %}
+  {% with page=4 %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+  <div class="container pt-5">
+    <form method="POST" novalidate> 
+      {% csrf_token %}
+      <table class="table table-form">
+        <tr>
+          <th>Mã thể loại:</th>
+          <td style="color:red">{{form.code}} {{form.code.errors}}</td>
+        </tr>
+        <tr>
+          <th>Tên thể loại:</th>
+          <td style="color:red">{{form.name}} {{form.name.errors}}</td>
+        </tr>
+      </table>
+      <button class="btn btn-primary mb-5" type="submit">Lưu lại</button>
+      <a class="btn btn-secondary mb-5" href='{% url "category-list" %}'>Quay lại</a>
+    </form>
+  </div>
+{% endblock %}

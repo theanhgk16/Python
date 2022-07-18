@@ -1,0 +1,80 @@
+
+{% extends 'user/base.html' %}
+{% block content %}
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <script src="/static/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="https://kit.fontawesome.com/e2db74ebd5.js" crossorigin="anonymous"></script>
+
+    <title>Profile</title>
+
+  <section class="mt-5 mb-5" style="background-color: #eee;">
+      <div class="container py-5">
+        <div class="row">
+          <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+              <ol class="mb-0">
+                <h1 class="text-center">Thông tin tài khoản</h1>
+              </ol>
+            </nav>
+          </div>
+        </div>
+    
+        <form method='POST' novalidate>
+          {%csrf_token%}
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="/static/images/chandung1.jpg" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3">Xin chào</h5>
+                  <p class="text-muted mb-1">{{ user.fullname }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Tên đăng nhập:</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <td class="text-muted mb-0"> {{ form.username }} </td>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Tên người dùng:</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0"> {{ form.fullname }} </p>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Số điện thoại:</p>     
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="mb-0"> {{ form.phone}} </p> 
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <button class="btn btn-primary float-right" href="{% url 'profile' %}">Lưu lại</button>
+              <a class="btn btn-secondary float-right mr-1" href="{% url 'home' %}">Quay lại</a>
+          </div>
+        </form>
+      </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <form class="mb-3">
+    <div class="row">
+      <div class="col-4">
+        <select name="category_id" class="form-control">
+          <option value="">---Chọn thể loại sách---</option>
+          {% for c in categories %}
+          <option value="{{ c.id }}" {% if queryParams.category_id|add:0 == c.id %} selected {% endif %}>
+            {{ c.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4">
+        <input name="title" value="{{ queryParams.title }}" class="form-control" placeholder="Tên sách">
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary ">Tìm kiếm</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-12">
+      <div class="{%if books %} d-none {%endif%}">
+        <label class='label-title'>Không tìm thấy kết quả nào</label>
+      </div>
+      <ul class="list-unstyled row">
+        {% for b in books %}
+        <li class="list-item col-sm-4 mt-3">
+          <div class='item-container pt-2 pr-2'>            
+            <a href="{% url 'view-book' b.id %}" class='book-item'>              
+              <img src="/{{b.image}}" class='book-image'>
+              <div class="item-info">
+                <div>
+                  <span class="book-title">{{b.title}}</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

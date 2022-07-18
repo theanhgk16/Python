@@ -1,0 +1,28 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5 ">
+  <h3>Sách đang mượn</h3>
+  <br>
+  {%if bookRents %}
+    <table class="table table-bordered">
+      <tr>
+        <th style="width: 5%;" class="text-center">STT</th>
+        <th style="width: 35%;" class="text-center">Sách</th>        
+        <th style="width: 30%" class="text-center">Ngày mượn</th>
+        <th style="width: 30%" class="text-center">Hạn trả</th>
+      </tr>
+      {%for bookRent in bookRents %}
+        <tr>
+          <td class="text-center">{{ forloop.counter }}</td>
+          <td class="text-center">{{ bookRent.book.title }} ({{bookRent.book.code}})</td>
+          <td class="text-center">{{ bookRent.startDate|date:"d/m/Y" }}</td>
+          <td class="text-center">{{ bookRent.dueDate|date:"d/m/Y" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {%else%}
+    <p>Không có dữ liệu</p>
+  {%endif%}
+</div>
+{% endblock %}

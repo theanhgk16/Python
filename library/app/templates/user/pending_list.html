@@ -1,0 +1,38 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <h3>Sách đang chờ nhận</h3>
+  <br>
+  {%if bookRents %}
+    <table class="table table-bordered">
+      <tr>
+        <th style="width: 5%;" class="text-center">STT</th>
+        <th style="width: 80%;" class="text-center">Sách</th>        
+        <th style="width: 15%;" class="text-center">Thao tác</th>
+      </tr>
+      {%for bookRent in bookRents %}
+        <tr>
+          <td class="text-center">{{ forloop.counter }}</td>
+          <td class="text-center">{{ bookRent.book.title }} ({{bookRent.book.code}})</td>
+          <td class="text-center">
+            <a onclick="confirmDelete(this)" url='{% url "borrow-cancel" bookRent.id %}' href="javascript:void(0)" class="btn btn-sm btn-danger">
+              Hủy mượn
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {%else%}
+    <p>Không có dữ liệu</p>
+  {%endif%}
+</div>
+<script>
+  function confirmDelete(a){
+    var url = a.getAttribute('url');
+    if(confirm('Bạn có muốn hủy mượn sách này?')){
+      location.href = url;
+    }
+  }
+</script>
+{% endblock %}
