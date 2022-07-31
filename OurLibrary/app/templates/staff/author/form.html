@@ -1,15 +1,15 @@
 {% extends 'staff/base.html' %}
-{% block navbar %}
+{% comment %} {% block navbar %}
   {% with page=2 %}
     {{ block.super }}
   {% endwith %}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block content %}
+  <h1 class="text-center">Thư mục tác giả</h1>
   <div class="container pt-5">
     <form method="POST" novalidate> 
       {% csrf_token %}
-
       <table class="table table-form">
         <tbody>
           <tr>
@@ -23,8 +23,8 @@
         </tbody>
       </table>
       
-      <button class="btn btn-primary mb-5" type="submit">Lưu lại</button>
-      <a class="btn btn-secondary mb-5" href='{% url "author-list" %}'>Quay lại</a>
+      <button class="btn btn-primary mb-5 float-right" type="submit">Lưu lại</button>
+      <a class="btn btn-secondary mb-5 float-right mr-1" href='{% url "author-list" %}'>Quay lại</a>
     </form>
   </div>
 {% endblock %}

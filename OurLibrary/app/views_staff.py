@@ -5,10 +5,8 @@ from .forms_staff import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
 def SearchAuthor(keyword):
     return f'?keyword={keyword}'
-
 
 @login_required
 def listAuthor(request):
@@ -19,7 +17,7 @@ def listAuthor(request):
     else:
         keyword = ''
         authors = Author.objects.all()
-    paginator = Paginator(authors, 2)  # Show number contacts per page.
+    paginator = Paginator(authors, 5)  # Show number contacts per page.
 
     page_number = request.GET.get('page')
 
@@ -87,7 +85,7 @@ def listPublisher(request):
     else:
         keyword = ''
         publishers = Publisher.objects.all()
-    paginator = Paginator(publishers, 2)  # Show number contacts per page.
+    paginator = Paginator(publishers, 5)  # Show number contacts per page.
 
     page_number = request.GET.get('page')
 
@@ -152,7 +150,7 @@ def listCategory(request):
     else:
         keyword = ''
         categories = Category.objects.all()
-    paginator = Paginator(categories, 1)  # Show number contacts per page.
+    paginator = Paginator(categories, 5)  # Show number contacts per page.
 
     page_number = request.GET.get('page')
 

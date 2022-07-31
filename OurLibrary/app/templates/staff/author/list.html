@@ -1,15 +1,14 @@
 {% extends 'staff/base.html' %}
 
-{% block navbar %}
+{% comment %} {% block navbar %}
 {% with page=2 %}
 {{ block.super }}
 {% endwith %}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block content %}
+<h1 class="text-center">Thư mục tác giả</h1>
 <div class="container pt-5">  
-  <h2>Danh mục tác giả</h2>
-  
   {%if authors %}
     <form class ="mt-4 mb-3">
       <div class="row">

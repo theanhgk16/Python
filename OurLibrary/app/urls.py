@@ -15,6 +15,7 @@ urlpatterns =[
     path('borrow_cancel/<int:id>', views_user.borrowCancel, name='borrow-cancel'),
     path('borrowing_list', views_user.borrowingList, name='borrowing-list'),    
         
+        
     path('staff', views_staff.listBook, name='book-list'),
     path('staff/book_create', views_staff.createBook, name='book-create'),  
     path('staff/book_update/<int:id>', views_staff.updateBook, name='book-update'),  

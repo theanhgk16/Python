@@ -1,6 +1,65 @@
 {% extends 'user/base.html' %}
 
 {% block content %}
+<style>
+  
+.book-image {
+  width: 95%;
+  height: 90%;
+}
+
+.book-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #222;
+}
+
+.book-item {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+.book-item,
+.book-item:link,
+.book-item:hover,
+.book-item:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.item-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+.item-info {
+  height: 50px;
+}
+
+.label-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.book-detail-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.book-detail-image {
+  width: 95%;
+  height: 400px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>
 <div class="container mt-5">
   <form class="mb-3">
     <div class="row">
@@ -45,6 +104,8 @@
       </ul>
     </div>
   </div>
+
+
 </div>
 
 {% endblock %}
