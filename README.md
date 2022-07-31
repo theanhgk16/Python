@@ -1,7 +1,7 @@
-# Python-project
-# python 3.10
+
+# Python 3.10
 # MY SQL
-# python manage.py makemigrations
-# python manage.py migrate
-# python manage.py createsuperuser
-# python manage.py runserver
+# Python manage.py makemigrations
+# Python manage.py migrate
+# Python manage.py createsuperuser
+# Python manage.py runserver
